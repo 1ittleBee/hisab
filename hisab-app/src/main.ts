@@ -88,7 +88,18 @@ export interface FirebaseConfig {
   storageBucket?: string;
   messagingSenderId?: string;
   appId: string;
+  measurementId?: string;
 }
+
+export const DEFAULT_FIREBASE_CONFIG: FirebaseConfig = {
+  apiKey: "AIzaSyCkFIogNCUyg1xlGmb8TDSM1UKCChuh63E",
+  authDomain: "hisab-c1864.firebaseapp.com",
+  projectId: "hisab-c1864",
+  storageBucket: "hisab-c1864.firebasestorage.app",
+  messagingSenderId: "495102014839",
+  appId: "1:495102014839:web:3f7fb2ad16646a8f889d72",
+  measurementId: "G-HYXPXTKSME"
+};
 
 export interface AppState {
   members: Member[];
@@ -186,6 +197,9 @@ function initializeState(): AppState {
   if (saved) {
     try {
       const parsed: AppState = JSON.parse(saved);
+      if (!parsed.firebaseConfig) {
+        parsed.firebaseConfig = DEFAULT_FIREBASE_CONFIG;
+      }
       // Ensure Khaled's payment is logged for November 2026 if empty
       const nov = parsed.months?.find(m => m.id === 'november-2026');
       if (nov && nov.memberRecords?.khaled) {
@@ -306,7 +320,8 @@ function initializeState(): AppState {
     paymentSettings: {
       bkashNumber: '017XXXXXXXX',
       nagadNumber: '018XXXXXXXX'
-    }
+    },
+    firebaseConfig: DEFAULT_FIREBASE_CONFIG
   };
 }
 
@@ -341,6 +356,28 @@ export function setupFirebase(config: FirebaseConfig): boolean {
             showToast('Live update synced from Firebase Cloud!', '☁️');
           }
         }
+      } else {
+        // Initial cloud document seed if document does not exist yet
+        if (!isApplyingCloudSnapshot && firestoreDb) {
+          setDoc(doc(firestoreDb, 'hisab_app', 'current_state'), JSON.parse(JSON.stringify(state)))
+            .then(() => {
+              console.log('✓ Firestore seeded with initial ground truth');
+            })
+            .catch(err => console.warn('Firestore initial seeding error:', err));
+        }
+      }
+    }, (error) => {
+      console.warn('Firestore listener status:', error);
+      const badge = document.getElementById('cloudSyncBadge');
+      if (badge) {
+        if (error && error.code === 'permission-denied') {
+          badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>Rules Needed</span>`;
+          badge.className = 'text-[10px] font-bold text-amber-400 bg-amber-950/60 border border-amber-500/30 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-[0_0_12px_rgba(245,158,11,0.2)] cursor-pointer';
+          badge.title = 'Permission denied. Please ensure Firestore is created in Test Mode in Firebase console.';
+        } else {
+          badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span><span>Cloud Offline</span>`;
+          badge.className = 'text-[10px] font-bold text-amber-400 bg-amber-950/60 border border-amber-500/30 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-[0_0_12px_rgba(245,158,11,0.2)] cursor-pointer';
+        }
       }
     });
 
@@ -356,9 +393,10 @@ export function setupFirebase(config: FirebaseConfig): boolean {
   }
 }
 
-if (state.firebaseConfig) {
-  setupFirebase(state.firebaseConfig);
+if (!state.firebaseConfig) {
+  state.firebaseConfig = DEFAULT_FIREBASE_CONFIG;
 }
+setupFirebase(state.firebaseConfig);
 
 export function saveState() {
   const json = JSON.stringify(state);
@@ -401,7 +439,13 @@ async function syncFromDiskOnBoot() {
     if (res.ok) {
       const diskData = await res.json();
       if (diskData && diskData.months && Array.isArray(diskData.months) && diskData.months.length > 0) {
+        if (!diskData.firebaseConfig) {
+          diskData.firebaseConfig = DEFAULT_FIREBASE_CONFIG;
+        }
         state = diskData;
+        if (!firestoreDb && state.firebaseConfig) {
+          setupFirebase(state.firebaseConfig);
+        }
         localStorage.setItem('basa_vara_hisab_state_v6', JSON.stringify(state));
         render();
         console.log('✓ Loaded state from PC hard drive (hisab-data.json)');
