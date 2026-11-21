@@ -1,5 +1,7 @@
 import './style.css';
 import seedData from './seedData.json';
+import { initializeApp, getApps, type FirebaseApp } from 'firebase/app';
+import { getFirestore, doc, setDoc, onSnapshot, type Firestore } from 'firebase/firestore';
 
 // --- Types ---
 export interface Member {
@@ -79,6 +81,15 @@ export interface MonthData {
   isClosed?: boolean;
 }
 
+export interface FirebaseConfig {
+  apiKey: string;
+  authDomain?: string;
+  projectId: string;
+  storageBucket?: string;
+  messagingSenderId?: string;
+  appId: string;
+}
+
 export interface AppState {
   members: Member[];
   currentMonthId: string;
@@ -93,6 +104,7 @@ export interface AppState {
     webhookUrl?: string;
     lastSyncedAt?: string;
   };
+  firebaseConfig?: FirebaseConfig;
 }
 
 // --- Standard Constants & UI Utilities ---
@@ -300,6 +312,54 @@ function initializeState(): AppState {
 
 let state: AppState = initializeState();
 
+let firebaseApp: FirebaseApp | null = null;
+let firestoreDb: Firestore | null = null;
+let isApplyingCloudSnapshot = false;
+
+export function setupFirebase(config: FirebaseConfig): boolean {
+  try {
+    if (!getApps().length) {
+      firebaseApp = initializeApp(config);
+    } else {
+      firebaseApp = getApps()[0];
+    }
+    firestoreDb = getFirestore(firebaseApp);
+
+    // Listen to real-time changes across devices
+    onSnapshot(doc(firestoreDb, 'hisab_app', 'current_state'), (docSnap) => {
+      if (docSnap.exists()) {
+        const cloudData = docSnap.data() as AppState;
+        if (cloudData && cloudData.months && Array.isArray(cloudData.months)) {
+          const cloudStr = JSON.stringify(cloudData);
+          const localStr = JSON.stringify(state);
+          if (cloudStr !== localStr) {
+            isApplyingCloudSnapshot = true;
+            state = cloudData;
+            localStorage.setItem('basa_vara_hisab_state_v6', cloudStr);
+            render();
+            isApplyingCloudSnapshot = false;
+            showToast('Live update synced from Firebase Cloud!', '☁️');
+          }
+        }
+      }
+    });
+
+    const badge = document.getElementById('cloudSyncBadge');
+    if (badge) {
+      badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span><span>Firebase Live</span>`;
+      badge.className = 'text-[10px] font-bold text-sky-400 bg-sky-950/60 border border-sky-500/30 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-[0_0_12px_rgba(56,189,248,0.2)] cursor-pointer';
+    }
+    return true;
+  } catch (err: any) {
+    console.error('Firebase setup failed:', err);
+    return false;
+  }
+}
+
+if (state.firebaseConfig) {
+  setupFirebase(state.firebaseConfig);
+}
+
 export function saveState() {
   const json = JSON.stringify(state);
   localStorage.setItem('basa_vara_hisab_state_v6', json);
@@ -318,6 +378,20 @@ export function saveState() {
   }).catch(() => {
     // Offline or static preview mode
   });
+
+  // Real-time Cloud Save to Firebase Firestore (Multi-Device Auto-Sync)
+  if (firestoreDb && !isApplyingCloudSnapshot) {
+    const cleanObj = JSON.parse(json);
+    setDoc(doc(firestoreDb, 'hisab_app', 'current_state'), cleanObj)
+      .then(() => {
+        const badge = document.getElementById('cloudSyncBadge');
+        if (badge) {
+          badge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-sky-400 animate-pulse"></span><span>Firebase Live</span>`;
+          badge.className = 'text-[10px] font-bold text-sky-400 bg-sky-950/60 border border-sky-500/30 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-[0_0_12px_rgba(56,189,248,0.2)] cursor-pointer';
+        }
+      })
+      .catch((err) => console.warn('Firestore write warning:', err));
+  }
 }
 
 // Auto-load state from PC disk on boot
@@ -613,6 +687,12 @@ function render() {
           <div id="diskSyncBadge" class="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.2)] cursor-pointer" title="Auto-saving to F:\Hisab\hisab-data.json (Click to open Sync Center)">
             <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>PC Disk Synced</span>
+          </div>
+
+          <!-- Firebase Real-Time Cloud Badge -->
+          <div id="cloudSyncBadge" class="text-[10px] font-bold ${state.firebaseConfig ? 'text-sky-400 bg-sky-950/60 border-sky-500/30 shadow-[0_0_12px_rgba(56,189,248,0.2)]' : 'text-slate-400 bg-slate-900/60 border-white/10'} border px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xs cursor-pointer" title="Firebase Multi-Device Real-Time Sync (Click to configure)">
+            <span class="w-1.5 h-1.5 rounded-full ${state.firebaseConfig ? 'bg-sky-400 animate-pulse' : 'bg-slate-500'}"></span>
+            <span>${state.firebaseConfig ? 'Firebase Live' : 'Connect Cloud'}</span>
           </div>
 
           <!-- Cloud & Backup Button -->
@@ -1789,6 +1869,9 @@ function attachEventListeners() {
   document.getElementById('diskSyncBadge')?.addEventListener('click', () => {
     openSyncModal();
   });
+  document.getElementById('cloudSyncBadge')?.addEventListener('click', () => {
+    openSyncModal();
+  });
 
   // Segmented View Mode Switcher
   document.getElementById('viewBtnDual')?.addEventListener('click', () => {
@@ -2896,6 +2979,41 @@ async function syncToGoogleSheets(currentMonth: MonthData, calc: ReturnType<type
   }
 }
 
+function parseFirebaseConfigInput(text: string): FirebaseConfig | null {
+  try {
+    const clean = text.trim();
+    if (clean.startsWith('{') && clean.endsWith('}')) {
+      const p = JSON.parse(clean);
+      if (p.apiKey && (p.projectId || p.appId)) return p;
+    }
+  } catch (e) {}
+
+  const extract = (key: string) => {
+    const match = text.match(new RegExp(`${key}\\s*:\\s*["']([^"']+)["']`));
+    return match ? match[1].trim() : '';
+  };
+
+  const apiKey = extract('apiKey');
+  const authDomain = extract('authDomain');
+  const projectId = extract('projectId') || 'hisab-c1864';
+  const storageBucket = extract('storageBucket');
+  const messagingSenderId = extract('messagingSenderId');
+  const appId = extract('appId');
+
+  if (apiKey && (projectId || appId)) {
+    return {
+      apiKey,
+      authDomain: authDomain || `${projectId}.firebaseapp.com`,
+      projectId,
+      storageBucket: storageBucket || `${projectId}.firebasestorage.app`,
+      messagingSenderId,
+      appId
+    };
+  }
+
+  return null;
+}
+
 // 8. Sync & Backup Center Modal
 function openSyncModal() {
   const currentMonth = state.months.find(m => m.id === state.currentMonthId)!;
@@ -2922,9 +3040,12 @@ function openSyncModal() {
     </div>
 
     <!-- TABS -->
-    <div class="mt-4 flex gap-2 border-b border-white/10 pb-3">
+    <div class="mt-4 flex gap-2 border-b border-white/10 pb-3 flex-wrap">
       <button id="tabSyncDisk" class="px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-xs">
         🖥️ PC Disk & JSON Backup
+      </button>
+      <button id="tabSyncFirebase" class="px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer text-slate-400 hover:text-white hover:bg-white/5">
+        ☁️ Firebase Real-Time Cloud
       </button>
       <button id="tabSyncSheets" class="px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer text-slate-400 hover:text-white hover:bg-white/5">
         📊 Google Sheets Sync
@@ -2988,7 +3109,61 @@ function openSyncModal() {
 
     </div>
 
-    <!-- PANE 2: GOOGLE SHEETS LIVE SYNC & EXPORT -->
+    <!-- PANE 2: FIREBASE REAL-TIME CLOUD -->
+    <div id="paneSyncFirebase" class="mt-4 space-y-4 hidden">
+
+      <!-- Status Card -->
+      <div class="p-4 rounded-2xl bg-slate-900/90 border ${state.firebaseConfig ? 'border-sky-500/30 shadow-[0_0_20px_rgba(56,189,248,0.15)]' : 'border-white/10'} space-y-2">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <span class="w-2.5 h-2.5 rounded-full ${state.firebaseConfig ? 'bg-sky-400 animate-pulse shadow-[0_0_8px_rgba(56,189,248,0.8)]' : 'bg-slate-500'}"></span>
+            <span class="text-xs font-black text-white">
+              ${state.firebaseConfig ? 'Connected to hisab-c1864 (Real-Time Cloud Active)' : 'Firebase Cloud Sync (Not Connected Yet)'}
+            </span>
+          </div>
+          <span class="text-[10px] font-bold ${state.firebaseConfig ? 'text-sky-300 bg-sky-950/80 border-sky-500/40' : 'text-slate-400 bg-slate-800'} border px-2 py-0.5 rounded-md">
+            ${state.firebaseConfig ? 'Live Two-Way Sync' : 'Offline Mode'}
+          </span>
+        </div>
+        <p class="text-xs text-slate-300">
+          ${state.firebaseConfig 
+            ? 'Any payment recorded or bill edited on your phone or laptop syncs instantly across all connected screens in real time.' 
+            : 'Connect your Firebase project to auto-sync your flat ledger across your phone, laptop, and roommates.'}
+        </p>
+      </div>
+
+      <!-- Firebase Config Input Box -->
+      <div class="p-4 rounded-2xl bg-slate-900/90 border border-white/10 space-y-3">
+        <div class="flex items-center justify-between">
+          <span class="text-xs font-black text-white flex items-center gap-1.5">
+            <span>⚙️</span> Paste your Firebase Config:
+          </span>
+          <a href="https://console.firebase.google.com/project/hisab-c1864/settings/general" target="_blank" rel="noopener noreferrer"
+            class="text-[11px] font-bold text-sky-400 hover:text-sky-300 underline flex items-center gap-1">
+            <span>🔗</span> Open hisab-c1864 in Firebase Console ↗
+          </a>
+        </div>
+        <p class="text-[11px] text-slate-400">
+          In Firebase Console $\to$ <strong>Project settings</strong> $\to$ Scroll down to <strong>Your apps</strong> $\to$ Click Web icon <code>&lt;/&gt;</code> and copy the <code>firebaseConfig</code> object:
+        </p>
+        <textarea id="inputFirebaseConfigText" rows="6" placeholder='const firebaseConfig = {&#10;  apiKey: "AIzaSy...",&#10;  authDomain: "hisab-c1864.firebaseapp.com",&#10;  projectId: "hisab-c1864",&#10;  storageBucket: "hisab-c1864.firebasestorage.app",&#10;  messagingSenderId: "...",&#10;  appId: "1:...:web:..."&#10;};'
+          class="glass-input w-full text-xs font-mono p-3 rounded-xl bg-black/50 border-white/10 text-white outline-none focus:ring-2 focus:ring-sky-500/50">${state.firebaseConfig ? JSON.stringify(state.firebaseConfig, null, 2) : ''}</textarea>
+
+        <div class="flex items-center justify-between pt-1">
+          ${state.firebaseConfig ? `
+            <button id="btnDisconnectFirebase" class="px-3.5 py-1.5 rounded-xl text-xs font-bold text-rose-400 hover:text-rose-300 hover:bg-rose-950/40 border border-rose-500/30 transition cursor-pointer">
+              Disconnect Cloud
+            </button>
+          ` : '<span></span>'}
+          <button id="btnConnectFirebase" class="px-5 py-2 rounded-xl text-xs font-extrabold bg-gradient-to-r from-sky-600 to-indigo-600 hover:from-sky-500 hover:to-indigo-500 text-white shadow-[0_0_20px_rgba(56,189,248,0.35)] active:scale-95 transition flex items-center gap-1.5 cursor-pointer">
+            <span>🚀</span> Save & Connect Firebase Cloud
+          </button>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- PANE 3: GOOGLE SHEETS LIVE SYNC & EXPORT -->
     <div id="paneSyncSheets" class="mt-4 space-y-4 hidden">
 
       <!-- Webhook URL Card -->
@@ -3055,22 +3230,61 @@ function openSyncModal() {
 
   // Tab switching
   const tabDisk = document.getElementById('tabSyncDisk');
+  const tabFirebase = document.getElementById('tabSyncFirebase');
   const tabSheets = document.getElementById('tabSyncSheets');
   const paneDisk = document.getElementById('paneSyncDisk');
+  const paneFirebase = document.getElementById('paneSyncFirebase');
   const paneSheets = document.getElementById('paneSyncSheets');
 
-  tabDisk?.addEventListener('click', () => {
-    tabDisk.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-xs';
+  const showTab = (tab: 'disk' | 'firebase' | 'sheets') => {
+    tabDisk?.setAttribute('class', 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer text-slate-400 hover:text-white hover:bg-white/5');
+    tabFirebase?.setAttribute('class', 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer text-slate-400 hover:text-white hover:bg-white/5');
     tabSheets?.setAttribute('class', 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer text-slate-400 hover:text-white hover:bg-white/5');
-    paneDisk?.classList.remove('hidden');
+
+    paneDisk?.classList.add('hidden');
+    paneFirebase?.classList.add('hidden');
     paneSheets?.classList.add('hidden');
+
+    if (tab === 'disk') {
+      tabDisk?.setAttribute('class', 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer bg-gradient-to-r from-indigo-600 to-violet-600 text-white shadow-xs');
+      paneDisk?.classList.remove('hidden');
+    } else if (tab === 'firebase') {
+      tabFirebase?.setAttribute('class', 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer bg-gradient-to-r from-sky-600 to-blue-600 text-white shadow-xs');
+      paneFirebase?.classList.remove('hidden');
+    } else if (tab === 'sheets') {
+      tabSheets?.setAttribute('class', 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xs');
+      paneSheets?.classList.remove('hidden');
+    }
+  };
+
+  tabDisk?.addEventListener('click', () => showTab('disk'));
+  tabFirebase?.addEventListener('click', () => showTab('firebase'));
+  tabSheets?.addEventListener('click', () => showTab('sheets'));
+
+  // Firebase Actions
+  document.getElementById('btnConnectFirebase')?.addEventListener('click', () => {
+    const raw = (document.getElementById('inputFirebaseConfigText') as HTMLTextAreaElement).value;
+    const parsed = parseFirebaseConfigInput(raw);
+    if (!parsed) {
+      alert('Could not parse Firebase configuration. Please make sure to copy the entire firebaseConfig object from Firebase console.');
+      return;
+    }
+    const success = setupFirebase(parsed);
+    if (success) {
+      state.firebaseConfig = parsed;
+      saveState();
+      showToast('Connected to Firebase Firestore in real-time!', '☁️');
+      openSyncModal();
+    } else {
+      alert('Failed to connect to Firebase. Please check your apiKey and projectId.');
+    }
   });
 
-  tabSheets?.addEventListener('click', () => {
-    tabSheets.className = 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-xs';
-    tabDisk?.setAttribute('class', 'px-3.5 py-1.5 rounded-xl text-xs font-black transition cursor-pointer text-slate-400 hover:text-white hover:bg-white/5');
-    paneSheets?.classList.remove('hidden');
-    paneDisk?.classList.add('hidden');
+  document.getElementById('btnDisconnectFirebase')?.addEventListener('click', () => {
+    state.firebaseConfig = undefined;
+    saveState();
+    showToast('Disconnected from Firebase Cloud', 'ℹ️');
+    openSyncModal();
   });
 
   // Disk Actions
