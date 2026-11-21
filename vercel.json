@@ -1,0 +1,5 @@
+{
+  "buildCommand": "cd hisab-app && npm run build",
+  "outputDirectory": "hisab-app/dist",
+  "framework": "vite"
+}

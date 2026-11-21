@@ -8,6 +8,7 @@ const __dirname = path.dirname(__filename);
 const DATA_FILE = path.resolve(__dirname, '../hisab-data.json');
 
 export default defineConfig({
+  base: './',
   server: {
     host: '127.0.0.1',
     port: 5173,
