@@ -1,0 +1,900 @@
+{
+  "members": [
+    {
+      "id": "sowpnil",
+      "name": "Sowpnil",
+      "roomType": "single",
+      "roomLabel": "Single / Master Room",
+      "baseRent": 4050
+    },
+    {
+      "id": "miraj",
+      "name": "Miraj",
+      "roomType": "single",
+      "roomLabel": "Single / Master Room",
+      "baseRent": 4050
+    },
+    {
+      "id": "ashik",
+      "name": "Ashik",
+      "roomType": "single",
+      "roomLabel": "Single / Master Room",
+      "baseRent": 4050
+    },
+    {
+      "id": "khaled",
+      "name": "Khaled",
+      "roomType": "single",
+      "roomLabel": "Single / Master Room",
+      "baseRent": 4050
+    },
+    {
+      "id": "kanchon",
+      "name": "Kanchon",
+      "roomType": "medium",
+      "roomLabel": "Medium Room",
+      "baseRent": 3700
+    },
+    {
+      "id": "rafi",
+      "name": "Rafi",
+      "roomType": "shared",
+      "roomLabel": "Shared Room",
+      "baseRent": 3300
+    },
+    {
+      "id": "turag",
+      "name": "Turag",
+      "roomType": "shared",
+      "roomLabel": "Shared Room",
+      "baseRent": 3300
+    }
+  ],
+  "currentMonthId": "november-2026",
+  "history": [
+    {
+      "id": "october",
+      "name": "October",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4420,
+          "haveToPay": 4420,
+          "paid": 4000,
+          "remaining": -420
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4420,
+          "haveToPay": 4420,
+          "paid": 4000,
+          "remaining": -420
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4420,
+          "haveToPay": 4420,
+          "paid": 4200,
+          "remaining": -220
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4420,
+          "haveToPay": 4420,
+          "paid": 4420,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 4020,
+          "haveToPay": 4020,
+          "paid": 4020,
+          "remaining": 0
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "rafi dada",
+          "thisMonth": 4660,
+          "haveToPay": 4660,
+          "paid": 4000,
+          "remaining": -660
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "rafee",
+          "thisMonth": 3560,
+          "haveToPay": 3560,
+          "paid": 3560,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "id": "november",
+      "name": "November",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4470,
+          "haveToPay": 4470,
+          "paid": 4500,
+          "remaining": 30
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4470,
+          "haveToPay": 4470,
+          "paid": 4470,
+          "remaining": 0
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4270,
+          "haveToPay": 4270,
+          "paid": 4100,
+          "remaining": -170
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4050,
+          "haveToPay": 4050,
+          "paid": 4050,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3700,
+          "haveToPay": 3700,
+          "paid": 3700,
+          "remaining": 0
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "rafi dada",
+          "thisMonth": 4050,
+          "haveToPay": 4050,
+          "paid": 4050,
+          "remaining": 0
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "rafee",
+          "thisMonth": 3390,
+          "haveToPay": 3390,
+          "paid": 3400,
+          "remaining": 10
+        }
+      }
+    },
+    {
+      "id": "december",
+      "name": "December",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4055,
+          "haveToPay": 4055,
+          "paid": 4055,
+          "remaining": 0
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4085,
+          "haveToPay": 4085,
+          "paid": 4000,
+          "remaining": -85
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4250,
+          "haveToPay": 4250,
+          "paid": 4150,
+          "remaining": -100
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4085,
+          "haveToPay": 4085,
+          "paid": 4085,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3735,
+          "haveToPay": 3735,
+          "paid": 3700,
+          "remaining": -35
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "rafee",
+          "thisMonth": 3425,
+          "haveToPay": 3425,
+          "paid": 3500,
+          "remaining": 75
+        }
+      }
+    },
+    {
+      "id": "january",
+      "name": "January",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4185,
+          "haveToPay": 4185,
+          "paid": 4000,
+          "remaining": -185
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4270,
+          "haveToPay": 4270,
+          "paid": 4270,
+          "remaining": 0
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4285,
+          "haveToPay": 4285,
+          "paid": 4200,
+          "remaining": -85
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4185,
+          "haveToPay": 4185,
+          "paid": 4185,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3870,
+          "haveToPay": 3870,
+          "paid": 3900,
+          "remaining": 30
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "rafee",
+          "thisMonth": 2960,
+          "haveToPay": 2960,
+          "paid": 3000,
+          "remaining": 40
+        }
+      }
+    },
+    {
+      "id": "february",
+      "name": "February",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4235,
+          "haveToPay": 4235,
+          "paid": 4220,
+          "remaining": -15
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4050,
+          "haveToPay": 4050,
+          "paid": 4000,
+          "remaining": -50
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4135,
+          "haveToPay": 4135,
+          "paid": 4100,
+          "remaining": -35
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4050,
+          "haveToPay": 4050,
+          "paid": 4050,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3670,
+          "haveToPay": 3670,
+          "paid": 3670,
+          "remaining": 0
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Asraf vai",
+          "thisMonth": 3500,
+          "haveToPay": 3500,
+          "paid": 3500,
+          "remaining": 0
+        },
+        "aabal": {
+          "memberId": "aabal",
+          "name": "Aabal",
+          "thisMonth": 3500,
+          "haveToPay": 3500,
+          "paid": 3000,
+          "remaining": -500
+        }
+      }
+    },
+    {
+      "id": "march",
+      "name": "March",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4300,
+          "haveToPay": 4315,
+          "paid": 4015,
+          "remaining": -300
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4300,
+          "haveToPay": 4350,
+          "paid": 4350,
+          "remaining": 0
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4300,
+          "haveToPay": 4085,
+          "paid": 4000,
+          "remaining": -85
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4300,
+          "haveToPay": 4300,
+          "paid": 4300,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3950,
+          "haveToPay": 3950,
+          "paid": 4000,
+          "remaining": 50
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Asraf vai",
+          "thisMonth": 3500,
+          "haveToPay": 3500,
+          "paid": 3500,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "id": "april",
+      "name": "April",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4186,
+          "haveToPay": 4486,
+          "paid": 4000,
+          "remaining": -486
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4186,
+          "haveToPay": 4186,
+          "paid": 4100,
+          "remaining": -86
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4186,
+          "haveToPay": 4271,
+          "paid": 4200,
+          "remaining": -71
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4186,
+          "haveToPay": 4186,
+          "paid": 4186,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3836,
+          "haveToPay": 3786,
+          "paid": 4000,
+          "remaining": 214
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3436,
+          "haveToPay": 3436,
+          "paid": 3430,
+          "remaining": -6
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3436,
+          "haveToPay": 3436,
+          "paid": 3435,
+          "remaining": -1
+        }
+      }
+    },
+    {
+      "id": "may",
+      "name": "May",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4075,
+          "haveToPay": 4561,
+          "paid": 4500,
+          "remaining": -61
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4075,
+          "haveToPay": 4161,
+          "paid": 4000,
+          "remaining": -161
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4075,
+          "haveToPay": 4146,
+          "paid": 4100,
+          "remaining": -46
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4075,
+          "haveToPay": 4075,
+          "paid": 4075,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3725,
+          "haveToPay": 3511,
+          "paid": 3500,
+          "remaining": -11
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3325,
+          "haveToPay": 3331,
+          "paid": 3331,
+          "remaining": 0
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3325,
+          "haveToPay": 3326,
+          "paid": 3326,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "id": "june",
+      "name": "June",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4325,
+          "haveToPay": 4385,
+          "paid": 4000,
+          "remaining": -385
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4325,
+          "haveToPay": 4485,
+          "paid": 4485,
+          "remaining": 0
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4325,
+          "haveToPay": 4370,
+          "paid": 4300,
+          "remaining": -70
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4325,
+          "haveToPay": 4325,
+          "paid": 4325,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "nishat",
+          "thisMonth": 3880,
+          "haveToPay": 3890,
+          "paid": 4000,
+          "remaining": 110
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3480,
+          "haveToPay": 3480,
+          "paid": 3200,
+          "remaining": -280
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3480,
+          "haveToPay": 3400,
+          "paid": 3400,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "id": "july",
+      "name": "July",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4270,
+          "haveToPay": 4655,
+          "paid": 4000,
+          "remaining": -655
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4270,
+          "haveToPay": 4270,
+          "paid": 3000,
+          "remaining": -1270
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4270,
+          "haveToPay": 4340,
+          "paid": 4300,
+          "remaining": -40
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4270,
+          "haveToPay": 4270,
+          "paid": 4270,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "Kanchon",
+          "thisMonth": 3700,
+          "haveToPay": 3700,
+          "paid": 3700,
+          "remaining": 0
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3300,
+          "haveToPay": 3580,
+          "paid": 3400,
+          "remaining": -180
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3300,
+          "haveToPay": 3300,
+          "paid": 3300,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "id": "august",
+      "name": "August",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4320,
+          "haveToPay": 4975,
+          "paid": 5000,
+          "remaining": 25
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4320,
+          "haveToPay": 5590,
+          "paid": 5510,
+          "remaining": -80
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4320,
+          "haveToPay": 4360,
+          "paid": 4300,
+          "remaining": -60
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4320,
+          "haveToPay": 4320,
+          "paid": 0,
+          "remaining": -4320
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "Kanchon",
+          "thisMonth": 3775,
+          "haveToPay": 3775,
+          "paid": 3500,
+          "remaining": -275
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3375,
+          "haveToPay": 3555,
+          "paid": 0,
+          "remaining": -3555
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3375,
+          "haveToPay": 3375,
+          "paid": 3375,
+          "remaining": 0
+        }
+      }
+    },
+    {
+      "id": "september",
+      "name": "September",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4570,
+          "haveToPay": 4545,
+          "paid": 4500,
+          "remaining": -45
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4570,
+          "haveToPay": 4650,
+          "paid": 3500,
+          "remaining": -1150
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4570,
+          "haveToPay": 4630,
+          "paid": 4560,
+          "remaining": -70
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4570,
+          "haveToPay": 4570,
+          "paid": 4570,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "Kanchon",
+          "thisMonth": 4125,
+          "haveToPay": 4325,
+          "paid": 3900,
+          "remaining": -425
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3725,
+          "haveToPay": 7280,
+          "paid": 4500,
+          "remaining": -2780
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3725,
+          "haveToPay": 3105,
+          "paid": 3000,
+          "remaining": -105
+        }
+      }
+    },
+    {
+      "id": "october-2026",
+      "name": "October 2026",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4300,
+          "haveToPay": 4345,
+          "paid": 4160,
+          "remaining": -185
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4300,
+          "haveToPay": 5450,
+          "paid": 4500,
+          "remaining": -950
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4300,
+          "haveToPay": 4370,
+          "paid": 4300,
+          "remaining": -70
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4300,
+          "haveToPay": 4300,
+          "paid": 4300,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "Kanchon",
+          "thisMonth": 3950,
+          "haveToPay": 4375,
+          "paid": 3700,
+          "remaining": -675
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3550,
+          "haveToPay": 6330,
+          "paid": 3550,
+          "remaining": -2780
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3550,
+          "haveToPay": 3655,
+          "paid": 3000,
+          "remaining": -655
+        }
+      }
+    },
+    {
+      "id": "november-2026",
+      "name": "November 2026",
+      "records": {
+        "sowpnil": {
+          "memberId": "sowpnil",
+          "name": "sowpnil",
+          "thisMonth": 4295,
+          "haveToPay": 4480,
+          "paid": 4000,
+          "remaining": -480
+        },
+        "miraj": {
+          "memberId": "miraj",
+          "name": "miraj",
+          "thisMonth": 4295,
+          "haveToPay": 5245,
+          "paid": 4500,
+          "remaining": -745
+        },
+        "ashik": {
+          "memberId": "ashik",
+          "name": "ashik",
+          "thisMonth": 4295,
+          "haveToPay": 4365,
+          "paid": 4200,
+          "remaining": -165
+        },
+        "khaled": {
+          "memberId": "khaled",
+          "name": "khaled",
+          "thisMonth": 4295,
+          "haveToPay": 4295,
+          "paid": 4295,
+          "remaining": 0
+        },
+        "kanchon": {
+          "memberId": "kanchon",
+          "name": "Kanchon",
+          "thisMonth": 3945,
+          "haveToPay": 4620,
+          "paid": 4000,
+          "remaining": -620
+        },
+        "rafi": {
+          "memberId": "rafi",
+          "name": "Rafi",
+          "thisMonth": 3545,
+          "haveToPay": 6325,
+          "paid": 0,
+          "remaining": -6325
+        },
+        "turag": {
+          "memberId": "turag",
+          "name": "Turag",
+          "thisMonth": 3545,
+          "haveToPay": 4200,
+          "paid": 4000,
+          "remaining": -200
+        }
+      }
+    }
+  ]
+}

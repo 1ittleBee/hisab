@@ -1,0 +1,17 @@
+# Dependencies
+node_modules/
+hisab-app/node_modules/
+
+# Production build
+dist/
+hisab-app/dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Environment & OS
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
