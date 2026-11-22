@@ -719,29 +719,23 @@ function render() {
             </select>
           </div>
 
-          <button id="btnNewMonth" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-[0_0_20px_rgba(99,102,241,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer">
-            <span>✨</span> Next Month
+          <!-- UNIFIED LIVE SYNC HUB PILL (Disk + Cloud) -->
+          <button id="btnOpenSyncModal" class="glass-card-interactive px-3 py-2 rounded-xl border border-white/10 bg-slate-900/90 hover:bg-slate-800 text-xs font-bold text-slate-200 shadow-xs flex items-center gap-2 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer" title="Auto-saving to PC Hard Drive and Firebase Cloud (Click to open Sync & Backup Center)">
+            <span class="flex items-center gap-1.5">
+              <span id="diskSyncDot" class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" title="PC Hard Drive (hisab-data.json) Active"></span>
+              <span id="cloudSyncDot" class="w-2 h-2 rounded-full ${state.firebaseConfig ? 'bg-sky-400 animate-pulse' : 'bg-slate-500'}" title="Firebase Firestore Cloud Live"></span>
+            </span>
+            <span class="text-[11px] font-black tracking-wide hidden sm:inline">
+              ${state.firebaseConfig ? 'Live Synced' : 'Disk Synced'}
+            </span>
           </button>
 
-          <button id="btnCopyWhatsApp" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-extrabold px-3.5 py-2 rounded-xl flex items-center gap-1.5 shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer" title="Copy WhatsApp message">
-            <span>📱</span> WhatsApp
+          <button id="btnCopyWhatsApp" class="bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white text-xs font-extrabold px-3 py-2 rounded-xl flex items-center gap-1.5 shadow-[0_0_20px_rgba(16,185,129,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer" title="Copy WhatsApp message">
+            <span>📱</span> <span class="hidden md:inline">WhatsApp</span>
           </button>
 
-          <!-- PC Hard Drive Sync Indicator -->
-          <div id="diskSyncBadge" class="text-[10px] font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-[0_0_12px_rgba(16,185,129,0.2)] cursor-pointer" title="Auto-saving to F:\Hisab\hisab-data.json (Click to open Sync Center)">
-            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span>PC Disk Synced</span>
-          </div>
-
-          <!-- Firebase Real-Time Cloud Badge -->
-          <div id="cloudSyncBadge" class="text-[10px] font-bold ${state.firebaseConfig ? 'text-sky-400 bg-sky-950/60 border-sky-500/30 shadow-[0_0_12px_rgba(56,189,248,0.2)]' : 'text-slate-400 bg-slate-900/60 border-white/10'} border px-2.5 py-1.5 rounded-xl flex items-center gap-1.5 shadow-xs cursor-pointer" title="Firebase Multi-Device Real-Time Sync (Click to configure)">
-            <span class="w-1.5 h-1.5 rounded-full ${state.firebaseConfig ? 'bg-sky-400 animate-pulse' : 'bg-slate-500'}"></span>
-            <span>${state.firebaseConfig ? 'Firebase Live' : 'Connect Cloud'}</span>
-          </div>
-
-          <!-- Cloud & Backup Button -->
-          <button id="btnOpenSyncModal" class="bg-slate-900/90 hover:bg-slate-800 text-slate-200 text-xs font-bold px-3 py-2 rounded-xl border border-white/10 shadow-xs flex items-center gap-1.5 transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer" title="Auto-save to PC & Google Sheets Sync">
-            <span>💾</span> Sync & Backup
+          <button id="btnNewMonth" class="bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white text-xs font-extrabold px-3 py-2 rounded-xl flex items-center gap-1.5 shadow-[0_0_20px_rgba(99,102,241,0.35)] transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer" title="Create Next Month & Carry Over">
+            <span>✨</span> <span class="hidden md:inline">Next Month</span>
           </button>
 
           <button id="btnSettings" class="bg-slate-900/80 hover:bg-slate-800 text-slate-300 text-xs font-bold px-2.5 py-2 rounded-xl border border-white/10 shadow-xs transition cursor-pointer" title="Settings">
@@ -841,15 +835,20 @@ function renderSide1(currentMonth: MonthData, calc: ReturnType<typeof calculateM
             📥
           </div>
         </div>
-        <div class="mt-2.5 flex items-baseline gap-2">
-          <span class="text-3xl font-black tabular-nums tracking-tight text-indigo-400">${calc.totalCashCollected.toLocaleString()}</span>
-          <span class="text-xs font-bold text-slate-400">/ ${calc.totalMemberPayable.toLocaleString()} ৳</span>
+        <div class="mt-2.5 flex items-baseline justify-between gap-2">
+          <div class="flex items-baseline gap-2">
+            <span class="text-3xl font-black tabular-nums tracking-tight text-indigo-400">${calc.totalCashCollected.toLocaleString()}</span>
+            <span class="text-xs font-bold text-slate-400">/ ${calc.totalMemberPayable.toLocaleString()} ৳</span>
+          </div>
+          <span class="text-[10px] font-black px-2 py-0.5 rounded-lg bg-indigo-500/15 text-indigo-300 border border-indigo-500/30 font-mono shadow-[0_0_10px_rgba(99,102,241,0.2)]">
+            ${percentRoommatesPaid}%
+          </span>
         </div>
-        <div class="mt-2.5 w-full bg-slate-900/80 rounded-full h-2 overflow-hidden shadow-inner border border-white/5">
-          <div class="bg-gradient-to-r from-indigo-500 via-indigo-600 to-violet-500 h-2 rounded-full transition-all duration-500 shadow-[0_0_12px_rgba(99,102,241,0.7)]" style="width: ${percentRoommatesPaid}%"></div>
+        <div class="mt-2.5 w-full bg-slate-900/80 rounded-full h-2.5 overflow-hidden shadow-inner border border-white/5">
+          <div class="bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 h-2.5 rounded-full transition-all duration-500 shadow-[0_0_14px_rgba(99,102,241,0.7)]" style="width: ${percentRoommatesPaid}%"></div>
         </div>
         <div class="flex justify-between text-[10px] mt-1.5 font-bold">
-          <span class="text-indigo-300">${percentRoommatesPaid}% Collected</span>
+          <span class="text-slate-400">Collected in Drawer</span>
           <span class="text-rose-400">Pending: ${calc.totalMemberDueRemaining.toLocaleString()} ৳</span>
         </div>
 
@@ -901,8 +900,13 @@ function renderSide1(currentMonth: MonthData, calc: ReturnType<typeof calculateM
           </span>
           <span class="text-xs font-bold text-slate-400">BDT</span>
         </div>
-        <p class="text-[11px] ${calc.cashInHand >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-semibold mt-1.5">
-          ${calc.cashInHand >= 0 ? 'Physical cash in mess drawer' : 'Personal pocket deficit, pending cash'}
+        <p class="text-[11px] ${calc.cashInHand >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-semibold mt-1.5 flex items-center justify-between flex-wrap gap-1">
+          <span>${calc.cashInHand >= 0 ? 'Physical cash in mess drawer' : 'Personal pocket deficit'}</span>
+          ${calc.cashInHand < 0 ? `
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+              ➜ +${(calc.cashInHand + calc.totalMemberDueRemaining).toLocaleString()} ৳ projected
+            </span>
+          ` : ''}
         </p>
 
         <!-- Tooltip -->
@@ -988,12 +992,15 @@ function renderSide1(currentMonth: MonthData, calc: ReturnType<typeof calculateM
           return `
             <div class="glass-card-interactive p-3.5 rounded-2xl border ${isDue ? 'border-rose-500/30 bg-rose-950/20 shadow-[0_0_16px_rgba(244,63,94,0.1)]' : isAdv ? 'border-cyan-500/30 bg-cyan-950/20 shadow-[0_0_16px_rgba(6,182,212,0.1)]' : 'border-white/10 bg-slate-900/40'} flex flex-col justify-between gap-2.5">
               <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2.5">
-                  <div class="w-8 h-8 rounded-xl bg-gradient-to-tr ${avatar.gradient} text-white font-black text-xs flex items-center justify-center shadow-md ring-1 ring-white/20 shrink-0">
+                <div class="flex items-center gap-2.5 memberClickableReceipt cursor-pointer group" data-id="${m.id}" data-name="${m.name}" title="Click to view digital receipt">
+                  <div class="w-8 h-8 rounded-xl bg-gradient-to-tr ${avatar.gradient} text-white font-black text-xs flex items-center justify-center shadow-md ring-1 ring-white/20 shrink-0 group-hover:scale-105 transition-transform">
                     ${avatar.initials}
                   </div>
                   <div>
-                    <span class="font-extrabold text-white text-xs">${m.name}</span>
+                    <span class="font-extrabold text-white text-xs group-hover:text-indigo-300 transition-colors flex items-center gap-1">
+                      <span>${m.name}</span>
+                      <span class="text-[9px] opacity-0 group-hover:opacity-100 text-indigo-400">🧾</span>
+                    </span>
                     <div class="text-[10px] text-slate-400 font-semibold">${m.roomLabel}</div>
                   </div>
                 </div>
@@ -1022,13 +1029,23 @@ function renderSide1(currentMonth: MonthData, calc: ReturnType<typeof calculateM
                 </div>
               ` : ''}
 
-              <div class="flex items-center gap-1.5">
+              <div class="flex items-center gap-1.5 pt-1 border-t border-white/5">
                 <input type="text" id="due_note_${m.id}" data-mid="${m.id}" value="${mentionVal}" placeholder="Note / Reference"
-                  class="inputMemberDueNoteSec glass-input flex-1 text-[10px] font-semibold text-slate-300 rounded-xl px-2.5 py-1 outline-none" />
-                <button class="btnPayCash px-3 py-1 rounded-xl text-[10px] font-black bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 hover:shadow-[0_0_12px_rgba(16,185,129,0.3)] transition cursor-pointer"
-                  data-id="${m.id}" data-name="${m.name}" data-due="${isDue ? remainingDue : 0}">
+                  class="inputMemberDueNoteSec glass-input flex-1 text-[10px] font-semibold text-slate-300 rounded-xl px-2 py-1 outline-none" />
+                <button class="btnPayCash px-2.5 py-1 rounded-xl text-[10px] font-black bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 hover:shadow-[0_0_12px_rgba(16,185,129,0.3)] transition cursor-pointer"
+                  data-id="${m.id}" data-name="${m.name}" data-due="${isDue ? remainingDue : 0}" title="Record Cash Payment">
                   Pay
                 </button>
+                <button class="btnReceipt px-2 py-1 rounded-xl text-[10px] font-bold bg-indigo-950/60 hover:bg-indigo-900/80 text-indigo-300 border border-indigo-500/30 transition cursor-pointer"
+                  data-id="${m.id}" data-name="${m.name}" title="View Digital Receipt">
+                  🧾
+                </button>
+                ${isDue ? `
+                  <button class="btnNudge px-2 py-1 rounded-xl text-[10px] font-bold bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 border border-emerald-500/30 transition cursor-pointer"
+                    data-id="${m.id}" data-name="${m.name}" title="WhatsApp Nudge Reminder">
+                    💬
+                  </button>
+                ` : ''}
               </div>
             </div>
           `;
@@ -1114,12 +1131,15 @@ function renderSide1(currentMonth: MonthData, calc: ReturnType<typeof calculateM
                 <tr class="hover:bg-white/[0.035] transition-colors duration-150 group">
                   <!-- Member Info with Gradient Avatar -->
                   <td class="py-3.5 px-5">
-                    <div class="flex items-center gap-3">
-                      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr ${avatar.gradient} text-white font-black text-xs flex items-center justify-center shadow-md ring-1 ring-white/20 shrink-0">
+                    <div class="flex items-center gap-3 memberClickableReceipt cursor-pointer group" data-id="${m.id}" data-name="${m.name}" title="Click to view digital receipt">
+                      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr ${avatar.gradient} text-white font-black text-xs flex items-center justify-center shadow-md ring-1 ring-white/20 shrink-0 group-hover:scale-105 transition-transform">
                         ${avatar.initials}
                       </div>
                       <div>
-                        <div class="font-extrabold text-white text-sm group-hover:text-indigo-300 transition-colors">${m.name}</div>
+                        <div class="font-extrabold text-white text-sm group-hover:text-indigo-300 transition-colors flex items-center gap-1.5">
+                          <span>${m.name}</span>
+                          <span class="text-[9px] opacity-0 group-hover:opacity-100 transition-opacity text-indigo-400">🧾</span>
+                        </div>
                         <div class="text-[11px] text-slate-400 font-medium">${m.roomLabel}</div>
                       </div>
                     </div>
@@ -1192,10 +1212,20 @@ function renderSide1(currentMonth: MonthData, calc: ReturnType<typeof calculateM
                   <td class="py-3.5 px-5 text-center">
                     <div class="flex items-center justify-center gap-1.5">
                       <button class="btnPayCash inline-flex items-center gap-1 px-3 py-1.5 rounded-xl text-xs font-black bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 hover:border-emerald-500/50 hover:shadow-[0_0_16px_rgba(16,185,129,0.25)] transition-all cursor-pointer active:scale-95" 
-                        data-id="${m.id}" data-name="${m.name}" data-due="${row.remaining < 0 ? Math.abs(row.remaining) : 0}">
+                        data-id="${m.id}" data-name="${m.name}" data-due="${row.remaining < 0 ? Math.abs(row.remaining) : 0}" title="Record Cash Payment">
                         <span class="text-xs">💵</span>
                         <span>Pay</span>
                       </button>
+                      <button class="btnReceipt inline-flex items-center justify-center px-2 py-1.5 rounded-xl bg-indigo-950/60 hover:bg-indigo-900/80 text-indigo-300 hover:text-white border border-indigo-500/30 hover:border-indigo-500/50 text-xs font-bold transition shadow-xs cursor-pointer active:scale-95"
+                        data-id="${m.id}" data-name="${m.name}" title="View Digital Receipt & Statement">
+                        <span>🧾</span>
+                      </button>
+                      ${isOverdue ? `
+                        <button class="btnNudge inline-flex items-center justify-center px-2 py-1.5 rounded-xl bg-emerald-950/60 hover:bg-emerald-900/80 text-emerald-300 hover:text-white border border-emerald-500/30 hover:border-emerald-500/50 text-xs font-bold transition shadow-xs cursor-pointer active:scale-95"
+                          data-id="${m.id}" data-name="${m.name}" title="WhatsApp Nudge Reminder">
+                          <span>💬</span>
+                        </button>
+                      ` : ''}
                       <button class="btnLedger inline-flex items-center justify-center px-2 py-1.5 rounded-xl bg-slate-900/80 hover:bg-slate-800 text-slate-300 hover:text-white border border-white/10 hover:border-white/20 text-xs font-bold transition shadow-xs cursor-pointer active:scale-95"
                         data-id="${m.id}" data-name="${m.name}" title="View Payment History">
                         <span>📜 ${row.payments.length}</span>
@@ -1312,8 +1342,13 @@ function renderSide2(currentMonth: MonthData, calc: ReturnType<typeof calculateM
           </span>
           <span class="text-xs font-bold text-slate-400">BDT</span>
         </div>
-        <p class="text-[11px] ${calc.cashInHand >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-semibold mt-1.5">
-          ${calc.cashInHand >= 0 ? 'Physical cash in mess drawer' : 'Personal pocket deficit, pending cash'}
+        <p class="text-[11px] ${calc.cashInHand >= 0 ? 'text-emerald-400' : 'text-rose-400'} font-semibold mt-1.5 flex items-center justify-between flex-wrap gap-1">
+          <span>${calc.cashInHand >= 0 ? 'Physical cash in mess drawer' : 'Personal pocket deficit'}</span>
+          ${calc.cashInHand < 0 ? `
+            <span class="text-[10px] px-2 py-0.5 rounded-full font-bold bg-emerald-500/10 text-emerald-300 border border-emerald-500/30">
+              ➜ +${(calc.cashInHand + calc.totalMemberDueRemaining).toLocaleString()} ৳ projected
+            </span>
+          ` : ''}
         </p>
       </div>
 
@@ -1361,19 +1396,26 @@ function renderSide2(currentMonth: MonthData, calc: ReturnType<typeof calculateM
       </div>
 
       <!-- Distinct Separation Banner inside Landlord Card -->
-      <div class="px-6 py-3 bg-slate-950/60 border-b border-white/10 text-xs flex flex-wrap items-center justify-between gap-2.5 text-slate-300">
-        <div class="flex items-center gap-4">
+      <div class="px-6 py-3 bg-slate-950/60 border-b border-white/10 text-xs flex flex-wrap items-center justify-between gap-3 text-slate-300">
+        <div class="flex items-center gap-3 flex-wrap">
           <span>⭐ <strong>This Month's Distinct Bill:</strong> <span class="font-black text-white">${calc.landlordDistinctMonth.toLocaleString()} ৳</span></span>
           ${calc.landlordPrevDue > 0 ? `
             <span class="text-amber-300 bg-amber-950/60 px-2.5 py-1 rounded-xl border border-amber-500/30 font-bold shadow-[0_0_10px_rgba(245,158,11,0.15)]">
-              ⚠️ Previous Landlord Due: <strong>+${calc.landlordPrevDue.toLocaleString()} ৳</strong> ${l.previousDueMention ? `(${l.previousDueMention})` : ''}
+              ⚠️ Previous Due: <strong>+${calc.landlordPrevDue.toLocaleString()} ৳</strong> ${l.previousDueMention ? `(${l.previousDueMention})` : ''}
             </span>
           ` : '<span class="text-slate-500 font-semibold">Previous Due: 0 ৳</span>'}
         </div>
 
-        <div class="flex items-center gap-3 font-semibold">
-          <span>Paid so far: <strong class="text-emerald-400">${calc.landlordTotalPaid.toLocaleString()} ৳</strong> (${l.payments.length} installments)</span>
-          <span>Remaining: <strong class="${calc.landlordRemainingDue > 0 ? 'text-rose-400 font-black' : 'text-emerald-400 font-black'}">${calc.landlordRemainingDue > 0 ? calc.landlordRemainingDue.toLocaleString() + ' ৳' : '0 ৳ (Cleared)'}</strong></span>
+        <div class="flex items-center gap-3 font-semibold flex-wrap">
+          <div class="flex items-center gap-1.5 flex-wrap">
+            ${l.payments && l.payments.length > 0 ? l.payments.map((p, idx) => `
+              <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-lg bg-emerald-950/70 border border-emerald-500/30 text-[11px] font-bold text-emerald-300 shadow-xs">
+                <span>💵 #${idx + 1}:</span>
+                <strong class="tabular-nums">${p.amount.toLocaleString()} ৳</strong>
+              </span>
+            `).join('') : '<span class="text-xs text-slate-500">0 ৳ paid</span>'}
+          </div>
+          <span>Remaining: <strong class="${calc.landlordRemainingDue > 0 ? 'text-rose-400 font-black' : 'text-emerald-400 font-black'}">${calc.landlordRemainingDue > 0 ? calc.landlordRemainingDue.toLocaleString() + ' ৳' : '0 ৳ (Cleared ✓)'}</strong></span>
         </div>
       </div>
 
@@ -1888,6 +1930,32 @@ function attachEventListeners() {
       const memberId = (btn as HTMLElement).dataset.id!;
       const memberName = (btn as HTMLElement).dataset.name!;
       openLedgerModal(memberId, memberName);
+    });
+  });
+
+  // Digital Receipt button
+  document.querySelectorAll('.btnReceipt').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const memberId = (btn as HTMLElement).dataset.id!;
+      openMemberReceiptModal(memberId);
+    });
+  });
+
+  // WhatsApp Nudge button
+  document.querySelectorAll('.btnNudge').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const memberId = (btn as HTMLElement).dataset.id!;
+      triggerWhatsAppNudge(memberId);
+    });
+  });
+
+  // Member Avatar & Name clickable to open receipt
+  document.querySelectorAll('.memberClickableReceipt').forEach(el => {
+    el.addEventListener('click', () => {
+      const memberId = (el as HTMLElement).dataset.id!;
+      openMemberReceiptModal(memberId);
     });
   });
 
@@ -2600,6 +2668,220 @@ function openLedgerModal(memberId: string, memberName: string) {
         render();
       }
     });
+  });
+}
+
+// 5b. WhatsApp Nudge Helper
+function triggerWhatsAppNudge(memberId: string) {
+  const currentMonth = state.months.find(m => m.id === state.currentMonthId)!;
+  const calc = calculateMonth(currentMonth, state.members);
+  const row = calc.rows.find(r => r.member.id === memberId);
+  if (!row) return;
+
+  const m = row.member;
+  const due = Math.abs(row.remaining);
+  const bkash = state.paymentSettings.bkashNumber || '017XXXXXXXX';
+  const nagad = state.paymentSettings.nagadNumber || '018XXXXXXXX';
+
+  const text = `Assalamu Alaikum ${m.name} ভাই! 🏠
+আমাদের মেস ${currentMonth.name} এর বাসা ভাড়া ও বিলের হিসাব:
+• রুম ভাড়া: ${m.baseRent.toLocaleString()} ৳
+• কারেন্ট ও লিভিং শেয়ার: ${row.perPersonDelta >= 0 ? '+' : ''}${row.perPersonDelta} ৳
+--------------------------------
+⭐ এই মাসের নির্দিষ্ট বিল: ${row.distinctThisMonth.toLocaleString()} ৳
+${row.prevBal < 0 ? `• পূর্বের মাসের বকেয়া: +${Math.abs(row.prevBal).toLocaleString()} ৳\n` : ''}--------------------------------
+👉 মোট প্রদেয় (Have to Pay): ${row.haveToPay.toLocaleString()} ৳
+✅ পরিশোধিত (Paid): ${row.totalPaid.toLocaleString()} ৳
+⏳ বর্তমান বকেয়া (Current Due): ${due.toLocaleString()} ৳
+
+টাকা পাঠানোর নম্বর:
+bKash: ${bkash}
+Nagad: ${nagad}
+
+টাকা পাঠিয়ে জানালে অ্যাপে রসিদ আপডেট করে দেওয়া হবে। ধন্যবাদ! 🙏`;
+
+  navigator.clipboard.writeText(text).then(() => {
+    showToast(`WhatsApp reminder copied for ${m.name}! Opening WhatsApp...`, '💬');
+    const encoded = encodeURIComponent(text);
+    window.open(`https://wa.me/?text=${encoded}`, '_blank');
+  });
+}
+
+// 5c. Apple Wallet-Style Digital Receipt & Ledger Modal
+function openMemberReceiptModal(memberId: string) {
+  const currentMonth = state.months.find(m => m.id === state.currentMonthId)!;
+  const calc = calculateMonth(currentMonth, state.members);
+  const row = calc.rows.find(r => r.member.id === memberId);
+  if (!row) return;
+
+  const m = row.member;
+  const avatar = getMemberAvatar(m);
+  const isCleared = row.remaining === 0;
+  const isDue = row.remaining < 0;
+  const remainingDue = Math.abs(row.remaining);
+  const rec = currentMonth.memberRecords[memberId];
+  const payments = rec ? rec.payments : [];
+
+  const receiptText = `🏠 BASA VARA & MESS HISAB — DIGITAL RECEIPT
+Month: ${currentMonth.name}
+Member: ${m.name} (${m.roomLabel})
+------------------------------------------------
+• Base Room Rent:          ${m.baseRent.toLocaleString()} ৳
+• Shared Living Adj:       ${row.perPersonDelta >= 0 ? '+' : ''}${row.perPersonDelta} ৳
+------------------------------------------------
+⭐ DISTINCT LIVING BILL:    ${row.distinctThisMonth.toLocaleString()} ৳
+${row.prevBal < 0 ? `• Past Months' Arrears:     +${Math.abs(row.prevBal).toLocaleString()} ৳\n` : row.prevBal > 0 ? `• Previous Advance Credit:  -${row.prevBal.toLocaleString()} ৳\n` : ''}------------------------------------------------
+💰 TOTAL TO PAY:           ${row.haveToPay.toLocaleString()} ৳
+✅ PAID (CASH / BKASH):    -${row.totalPaid.toLocaleString()} ৳
+------------------------------------------------
+${isCleared ? '🟢 STATUS:                  CLEARED (0 ৳ DUE)' : isDue ? `🔴 CURRENT REMAINING DUE:   ${remainingDue.toLocaleString()} ৳` : `🔵 ADVANCE CREDIT BALANCE:  +${Math.abs(row.remaining).toLocaleString()} ৳`}
+
+Payment Methods:
+bKash: ${state.paymentSettings.bkashNumber}
+Nagad: ${state.paymentSettings.nagadNumber}
+Issued via Hisab Mess System (${new Date().toLocaleDateString()})
+`;
+
+  openModal(`
+    <div class="space-y-4">
+      <!-- Receipt Header -->
+      <div class="flex items-center justify-between pb-3.5 border-b border-white/10">
+        <div class="flex items-center gap-3">
+          <div class="w-11 h-11 rounded-2xl bg-gradient-to-tr ${avatar.gradient} text-white font-black text-base flex items-center justify-center shadow-[0_0_20px_rgba(99,102,241,0.4)] ring-1 ring-white/20">
+            ${avatar.initials}
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h3 class="text-base font-black text-white">${m.name}</h3>
+              <span class="text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${isCleared ? 'bg-emerald-500/15 text-emerald-300 border border-emerald-500/30' : isDue ? 'bg-rose-500/15 text-rose-300 border border-rose-500/30' : 'bg-cyan-500/15 text-cyan-300 border border-cyan-500/30'}">
+                ${isCleared ? 'Cleared ✓' : isDue ? `Due ${remainingDue.toLocaleString()} ৳` : `Adv +${Math.abs(row.remaining).toLocaleString()} ৳`}
+              </span>
+            </div>
+            <p class="text-xs text-slate-400 font-medium">${m.roomLabel} • ${currentMonth.name} Statement</p>
+          </div>
+        </div>
+        <button onclick="document.getElementById('modalOverlay').classList.add('hidden')" 
+          class="w-8 h-8 rounded-full bg-slate-800/80 hover:bg-slate-700 text-slate-400 hover:text-white flex items-center justify-center text-sm font-bold transition cursor-pointer">✕</button>
+      </div>
+
+      <!-- Apple Wallet Ticket Body -->
+      <div class="p-5 rounded-3xl bg-gradient-to-b from-slate-900/90 to-slate-950/95 border border-white/15 shadow-2xl relative overflow-hidden space-y-3.5">
+        <!-- Top Banner -->
+        <div class="flex items-center justify-between text-xs pb-3 border-b border-white/10">
+          <div class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">
+            OFFICIAL MESS STATEMENT
+          </div>
+          <div class="text-xs font-mono font-bold text-indigo-300">
+            ${currentMonth.name}
+          </div>
+        </div>
+
+        <!-- Line items -->
+        <div class="space-y-2 text-xs">
+          <div class="flex justify-between items-center text-slate-300">
+            <span>Room Base Rent:</span>
+            <span class="font-bold tabular-nums text-white">${m.baseRent.toLocaleString()} ৳</span>
+          </div>
+
+          <div class="flex justify-between items-center text-slate-300">
+            <span class="flex items-center gap-1">
+              <span>Electricity & Living Share:</span>
+              <span class="text-[10px] text-slate-400">(+245৳ share)</span>
+            </span>
+            <span class="font-bold tabular-nums ${row.perPersonDelta >= 0 ? 'text-amber-400' : 'text-emerald-400'}">
+              ${row.perPersonDelta >= 0 ? '+' : ''}${row.perPersonDelta} ৳
+            </span>
+          </div>
+
+          <div class="p-2.5 rounded-xl bg-indigo-950/40 border border-indigo-500/20 flex justify-between items-center text-xs font-black text-indigo-300">
+            <span>⭐ Distinct Month Living Bill:</span>
+            <span class="tabular-nums text-sm">${row.distinctThisMonth.toLocaleString()} ৳</span>
+          </div>
+
+          ${row.prevBal !== 0 ? `
+            <div class="flex justify-between items-center text-xs ${row.prevBal < 0 ? 'text-rose-300' : 'text-cyan-300'}">
+              <span>${row.prevBal < 0 ? '⚠️ Past Unpaid Due (Carryover):' : 'Advance Credit Applied:'}</span>
+              <span class="font-bold tabular-nums">${row.prevBal < 0 ? '+' : '-'}${Math.abs(row.prevBal).toLocaleString()} ৳</span>
+            </div>
+          ` : ''}
+
+          <div class="flex justify-between items-center pt-2 border-t border-white/10 font-black text-white text-sm">
+            <span>Total Have To Pay:</span>
+            <span class="tabular-nums">${row.haveToPay.toLocaleString()} ৳</span>
+          </div>
+
+          <div class="flex justify-between items-center text-emerald-400 font-bold text-xs">
+            <span>Cash Paid This Month:</span>
+            <span class="tabular-nums">-${row.totalPaid.toLocaleString()} ৳</span>
+          </div>
+
+          <!-- Installment Chips if any -->
+          ${payments.length > 0 ? `
+            <div class="pt-1.5 space-y-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Payment Installments:</span>
+              <div class="space-y-1 max-h-24 overflow-y-auto pr-1">
+                ${payments.map(p => `
+                  <div class="flex justify-between items-center text-[11px] p-2 rounded-xl bg-black/40 border border-white/5">
+                    <span class="text-slate-300">${p.date} • ${p.method}${p.note ? ` (${p.note})` : ''}</span>
+                    <strong class="text-emerald-400 font-mono">+${p.amount.toLocaleString()} ৳</strong>
+                  </div>
+                `).join('')}
+              </div>
+            </div>
+          ` : '<div class="text-[10px] text-slate-400 italic">No payments logged yet this month.</div>'}
+        </div>
+
+        <!-- Net Status Card -->
+        <div class="pt-3 border-t border-dashed border-white/20">
+          <div class="p-3.5 rounded-2xl ${isCleared ? 'bg-emerald-950/60 border border-emerald-500/40 text-emerald-300 shadow-[0_0_20px_rgba(16,185,129,0.2)]' : isDue ? 'bg-rose-950/60 border border-rose-500/40 text-rose-300 shadow-[0_0_20px_rgba(244,63,94,0.2)]' : 'bg-cyan-950/60 border border-cyan-500/40 text-cyan-300'} flex items-center justify-between">
+            <div>
+              <div class="text-[10px] uppercase font-bold tracking-wider opacity-80">
+                ${isCleared ? 'Status' : isDue ? 'Current Net Due' : 'Advance Credit'}
+              </div>
+              <div class="text-base font-black tabular-nums">
+                ${isCleared ? 'Bill Fully Cleared ✓' : isDue ? `Due: ${remainingDue.toLocaleString()} ৳` : `+${Math.abs(row.remaining).toLocaleString()} ৳ Advance`}
+              </div>
+            </div>
+            <div class="text-xl">
+              ${isCleared ? '🟢' : isDue ? '⏳' : '💎'}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="flex flex-wrap items-center justify-between gap-2.5 pt-1">
+        <button id="btnCopyReceiptText" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-slate-900/90 hover:bg-slate-800 text-slate-300 border border-white/10 transition flex items-center gap-1.5 cursor-pointer">
+          <span>📋</span> Copy Text
+        </button>
+
+        <div class="flex items-center gap-2">
+          ${isDue ? `
+            <button id="btnShareWhatsAppReceipt" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-white shadow-[0_0_16px_rgba(16,185,129,0.35)] transition flex items-center gap-1.5 cursor-pointer">
+              <span>💬</span> WhatsApp Nudge
+            </button>
+          ` : ''}
+
+          <button id="btnReceiptPayCash" class="px-4 py-2 rounded-xl text-xs font-black bg-gradient-to-r from-indigo-600 to-violet-600 hover:from-indigo-500 hover:to-violet-500 text-white shadow-[0_0_16px_rgba(99,102,241,0.35)] transition flex items-center gap-1.5 cursor-pointer">
+            <span>💵</span> + Record Cash
+          </button>
+        </div>
+      </div>
+    </div>
+  `);
+
+  document.getElementById('btnCopyReceiptText')?.addEventListener('click', () => {
+    navigator.clipboard.writeText(receiptText);
+    showToast(`Digital receipt copied for ${m.name}!`, '📋');
+  });
+
+  document.getElementById('btnShareWhatsAppReceipt')?.addEventListener('click', () => {
+    triggerWhatsAppNudge(m.id);
+  });
+
+  document.getElementById('btnReceiptPayCash')?.addEventListener('click', () => {
+    closeModal();
+    openPaymentModal(m.id, m.name, isDue ? remainingDue : 0);
   });
 }
 

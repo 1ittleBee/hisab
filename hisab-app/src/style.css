@@ -206,3 +206,12 @@ input[type="number"] {
 ::-webkit-scrollbar-thumb:hover {
   background: rgba(255, 255, 255, 0.3);
 }
+
+/* Tactile Micro-Interactions (Linear & iOS feel) */
+button:active:not(:disabled) {
+  transform: scale(0.97);
+}
+
+.memberClickableReceipt:hover {
+  filter: brightness(1.1);
+}
